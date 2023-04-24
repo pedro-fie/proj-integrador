@@ -1,9 +1,11 @@
 import 'dart:html';
 import 'dart:io';
 
+import 'package:app/Telas/Iniciar.dart';
 import 'package:flutter/material.dart';
 
-import 'Telas/Login.dart';
+import 'package:app/Telas/Iniciar.dart';
+import 'package:app/Telas/Login.dart';
 
 void main() {
   runApp(MyApp());
@@ -15,9 +17,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'AA',
+      title: 'Receitas na Mão',
       color: const Color(0xFF2C3639),
-      home: Scaffold(body: TelaLogin()),
+      home: Iniciar(),
     );
   }
 }
