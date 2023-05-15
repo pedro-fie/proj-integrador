@@ -1,6 +1,7 @@
 import 'dart:js';
 
 import 'package:app/Telas/Cadastro.dart';
+import 'package:app/Telas/Principal.dart';
 import 'package:app/Telas/RecuperarSenha.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -131,7 +132,13 @@ class TelaLogin extends StatelessWidget {
             ),
             //Botao logar
             ElevatedButton(
-              onPressed: () => {},
+              onPressed: () => {
+                Navigator.pop(context),
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => TelaPrincipal()),
+                )
+              },
               style: ElevatedButton.styleFrom(
                 minimumSize: Size(MediaQuery.of(context).size.width * 0.7,
                     MediaQuery.of(context).size.height * 0.1),
