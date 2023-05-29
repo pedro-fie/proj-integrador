@@ -4,6 +4,7 @@ import 'package:app/Telas/Cadastro.dart';
 import 'package:app/Telas/Principal.dart';
 import 'package:app/Telas/RecuperarSenha.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../DadosLogin.dart';
 
@@ -12,96 +13,66 @@ Login _login = Login();
 class TelaLogin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
+    return const Scaffold(
+      body: LoginForm(),
+    );
+  }
+}
+
+class LoginForm extends StatefulWidget {
+  const LoginForm({super.key});
+
+  @override
+  LoginFormState createState() {
+    return LoginFormState();
+  }
+}
+
+class LoginFormState extends State<LoginForm> {
+  final _formKey = GlobalKey<FormState>();
+
+  String? validarEmail(value) {
+    if (value == null || value.isEmpty) {
+      return "Email não pode ser vazio";
+    }
+    if (!value.contains('@') || !value.contains('.')) {
+      return "Formato de email inválido";
+    }
+    return null;
+  }
+
+  String? validarSenha(value) {
+    if (value == null || value.length < 5) {
+      return "Senha não pode ter menos de 5 caracteres";
+    }
+    return null;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    double distanciaY = MediaQuery.of(context).size.height * 0.03;
+    return Form(
+      key: _formKey,
+      child: Container(
         color: const Color(0xFF2C3639),
         transformAlignment: Alignment.center,
         alignment: Alignment.center,
         child: Column(
-          //mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(
-              height: MediaQuery.of(context).size.height * .05,
-            ),
-            SvgPicture.asset(
-              'assets/images/unlock.svg',
-              width: MediaQuery.of(context).size.width * .7,
-              height: MediaQuery.of(context).size.height * .3,
-              fit: BoxFit.cover,
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * .05,
-            ),
-
-            //Label Email
-            Container(
-              alignment: Alignment.centerLeft,
-              width: MediaQuery.of(context).size.width * 0.7,
-              child: const Text(
-                "Email",
-                style: TextStyle(
-                  color: Colors.white,
-                ),
+            Padding(
+              padding: EdgeInsets.only(top: distanciaY),
+              child: SvgPicture.asset(
+                'assets/images/unlock.svg',
+                width: MediaQuery.of(context).size.width * .7,
+                height: MediaQuery.of(context).size.height * .3,
+                fit: BoxFit.cover,
               ),
             ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * .01,
-            ),
-            //Campo Email
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(100),
-                color: const Color(0xFFDCD7C9),
-              ),
-              width: MediaQuery.of(context).size.width * 0.7,
-              child: TextField(
-                onChanged: (e) => {_login.login = e},
-                decoration: InputDecoration(
-                  hintText: "Email",
-                  border: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.black),
-                    borderRadius: BorderRadius.circular(100),
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * .05,
-            ),
-
-            //Label Senha
-            Container(
-              alignment: Alignment.centerLeft,
-              width: MediaQuery.of(context).size.width * 0.7,
-              child: const Text(
-                "Senha",
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * .01,
-            ),
-            //Campo Senha
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(100),
-                color: const Color(0xFFDCD7C9),
-              ),
-              width: MediaQuery.of(context).size.width * 0.7,
-              child: TextField(
-                onChanged: (e) => {_login.senha = e},
-                obscureText: true,
-                decoration: InputDecoration(
-                  hintText: "Senha",
-                  border: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.black),
-                    borderRadius: BorderRadius.circular(100),
-                  ),
-                ),
-              ),
-            ),
+            Input("Email", EdgeInsets.only(top: distanciaY),
+                (e) => {_login.login = e}, validarEmail),
+            Input("Senha", EdgeInsets.only(top: distanciaY),
+                (e) => {_login.senha = e}, validarSenha,
+                password: true),
             //Esqueceu a senha
             Container(
               alignment: Alignment.centerRight,
@@ -133,11 +104,14 @@ class TelaLogin extends StatelessWidget {
             //Botao logar
             ElevatedButton(
               onPressed: () => {
-                Navigator.pop(context),
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => TelaPrincipal()),
-                )
+                if (_formKey.currentState!.validate())
+                  {
+                    Navigator.pop(context),
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => TelaPrincipal()),
+                    )
+                  }
               },
               style: ElevatedButton.styleFrom(
                 minimumSize: Size(MediaQuery.of(context).size.width * 0.7,
@@ -189,6 +163,58 @@ class TelaLogin extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class Input extends StatelessWidget {
+  final EdgeInsetsGeometry edg;
+  final String? Function(String?) validator;
+  final void Function(String) fun;
+  final String label;
+  final bool password;
+  const Input(this.label, this.edg, this.fun, this.validator,
+      {this.password = false, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: edg,
+      child: Column(
+        children: [
+          //Label Senha
+          Container(
+            alignment: Alignment.centerLeft,
+            width: MediaQuery.of(context).size.width * 0.7,
+            child: Text(
+              label,
+              style: const TextStyle(
+                color: Colors.white,
+              ),
+            ),
+          ),
+
+          //Campo Senha
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.7,
+            child: TextFormField(
+              obscureText: password,
+              decoration: InputDecoration(
+                hintText: label,
+                fillColor: const Color(0xFFDCD7C9),
+                filled: true,
+                border: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Colors.white),
+                  borderRadius: BorderRadius.circular(100),
+                ),
+              ),
+              onChanged: fun,
+              // The validator receives the text that the user has entered.
+              validator: validator,
+            ),
+          ),
+        ],
       ),
     );
   }
