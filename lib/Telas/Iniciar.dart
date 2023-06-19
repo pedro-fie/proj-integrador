@@ -1,4 +1,3 @@
-import 'package:app/DadosLogin.dart';
 import 'package:app/Telas/Cadastro.dart';
 import 'package:app/Telas/Login.dart';
 import 'package:flutter/material.dart';

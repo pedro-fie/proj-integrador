@@ -3,7 +3,7 @@ import 'dart:js';
 import 'package:app/Telas/Login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../DadosLogin.dart';
+import '../Models/DadosLogin.dart';
 
 class Cadastro extends StatelessWidget {
   @override

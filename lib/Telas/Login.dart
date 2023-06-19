@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:js';
 
 import 'package:app/Telas/Cadastro.dart';
@@ -6,7 +7,7 @@ import 'package:app/Telas/RecuperarSenha.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../DadosLogin.dart';
+import '../Models/DadosLogin.dart';
 
 Login _login = Login();
 
@@ -106,11 +107,19 @@ class LoginFormState extends State<LoginForm> {
               onPressed: () => {
                 if (_formKey.currentState!.validate())
                   {
-                    Navigator.pop(context),
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => TelaPrincipal()),
-                    )
+                    _login.CheckLogin().then(
+                      (value) => {
+                        if (value == true)
+                          {
+                            Navigator.pop(context),
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => TelaPrincipal()),
+                            ),
+                          },
+                      },
+                    ),
                   }
               },
               style: ElevatedButton.styleFrom(

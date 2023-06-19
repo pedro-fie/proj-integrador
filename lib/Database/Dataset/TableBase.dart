@@ -1,7 +1,11 @@
-class TableBase {
-  final String _table;
+abstract class TableBase {
+  final String _id;
 
-  TableBase(this._table);
+  TableBase(this._id);
 
-  String get table => _table;
+  String get id => _id;
+
+  Map<String, dynamic> toMap();
+
+  void unMap(Map<String, dynamic>? ob);
 }

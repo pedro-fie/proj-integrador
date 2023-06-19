@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "636479501272",
+    "firebase_url": "https://app-receita-da11c-default-rtdb.firebaseio.com",
+    "project_id": "app-receita-da11c",
+    "storage_bucket": "app-receita-da11c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:636479501272:android:3b0a3c84477b54887778ad",
+        "android_client_info": {
+          "package_name": "com.example.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "636479501272-c3mvrr4b2vguqra9jiciq4e0jmjt38j0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDmUFeUaPKeKQ0EpXSdQvnRw20Gvpg2N-Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "636479501272-c3mvrr4b2vguqra9jiciq4e0jmjt38j0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
