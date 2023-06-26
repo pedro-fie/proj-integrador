@@ -2,13 +2,16 @@ import 'dart:convert';
 
 import 'package:app/Database/Dataset/TableBase.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class Dataset<T extends TableBase> {
   final String _table;
 
   final FirebaseFirestore _db;
 
-  Dataset(this._db, this._table);
+  final T Function() creator;
+
+  Dataset(this._db, this._table, this.creator);
 
   Future<List<T>> Get(GetOptions? options,
       {Object? field,
@@ -18,40 +21,51 @@ class Dataset<T extends TableBase> {
       Object? isLessThan}) async {
     List<T> resp = <T>[];
     T data;
-
+    T? dd;
     if (field != null) {
-      await _db
-          .collection(_table)
-          .where(
-            field,
-            isEqualTo: isEqualTo,
-            isGreaterThan: isGreaterThan,
-            isNotEqualTo: isNotEqualTo,
-            isLessThan: isLessThan,
-          )
-          .get(options)
-          .then(
-            (value) => {
-              for (var d in value.docs)
-                {
-                  print("data"),
-                  print(d.data()),
-                  data = jsonDecode(d.data()),
-                  resp.add(data),
-                },
-            },
-          );
+      if (field.toString().toLowerCase() != "id") {
+        await _db
+            .collection(_table)
+            .where(
+              field,
+              isEqualTo: isEqualTo,
+              isGreaterThan: isGreaterThan,
+              isNotEqualTo: isNotEqualTo,
+              isLessThan: isLessThan,
+            )
+            .get(options)
+            .then(
+              (value) => {
+                for (var d in value.docs)
+                  {
+                    data = creator(),
+                    data.unMap(d.data(), d.id),
+                    resp.add(data.getObject() as T),
+                  },
+              },
+            );
+      } else {
+        await _db.collection(_table).doc(isEqualTo.toString()).get().then(
+              (value) => {
+                data = creator(),
+                data.unMap(value.data(), value.id),
+                resp.add(data.getObject() as T),
+              },
+            );
+      }
     } else {
       await _db.collection(_table).get(options).then(
             (value) => {
               for (var d in value.docs)
                 {
-                  data = jsonDecode(d.data().toString()),
-                  resp.add(data),
+                  data = creator(),
+                  data.unMap(d.data(), d.id),
+                  resp.add(data.getObject() as T),
                 },
             },
           );
     }
+    //print(resp[0]);
     return resp;
   }
 

@@ -1,11 +1,11 @@
 abstract class TableBase {
-  final String _id;
+  String id;
 
-  TableBase(this._id);
-
-  String get id => _id;
+  TableBase(this.id);
 
   Map<String, dynamic> toMap();
 
-  void unMap(Map<String, dynamic>? ob);
+  Object getObject();
+
+  void unMap(Map<String, dynamic>? ob, String id);
 }

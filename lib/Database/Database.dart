@@ -7,8 +7,8 @@ class Database {
   final _db = FirebaseFirestore.instance;
 
   Database() {
-    usuarios = Dataset(_db, 'Usuario');
-    receitas = Dataset(_db, 'Receita');
+    usuarios = Dataset(_db, 'Usuario', Usuario.new);
+    receitas = Dataset(_db, 'Receita', Receita.new);
   }
 
   late Dataset<Usuario> usuarios;

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:js';
 
+import 'package:app/Storage/Storage.dart';
 import 'package:app/Telas/Cadastro.dart';
 import 'package:app/Telas/Principal.dart';
 import 'package:app/Telas/RecuperarSenha.dart';

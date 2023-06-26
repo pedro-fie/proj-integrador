@@ -4,27 +4,36 @@ import 'package:app/Database/Dataset/TableBase.dart';
 class Usuario extends TableBase {
   Usuario({id = ""}) : super(id);
 
+  @override
+  Object getObject() {
+    return this;
+  }
+
   String nome = "";
   String login = "";
   String email = "";
   String senha = "";
+  String bio = "";
 
   @override
   Map<String, dynamic> toMap() {
     return {
-      'nome': nome,
-      'login': login,
-      'email': email,
-      'senha': senha,
+      'Nome': nome,
+      'Login': login,
+      'Email': email,
+      'Senha': senha,
+      'Bio': bio,
     };
   }
 
   @override
-  void unMap(Map<String, dynamic>? ob) {
+  void unMap(Map<String, dynamic>? ob, String id) {
     if (ob == null) return;
-    nome = ob["nome"];
-    login = ob['login'];
-    email = ob['email'];
-    senha = ob['senha'];
+    this.id = id;
+    nome = ob["Nome"] ?? "";
+    login = ob['Login'] ?? "";
+    email = ob['Email'] ?? "";
+    senha = ob['Senha'] ?? "";
+    bio = ob['Bio'] ?? "";
   }
 }
