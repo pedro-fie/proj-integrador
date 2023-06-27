@@ -1,172 +1,104 @@
 import 'dart:js';
 
+import 'package:app/Models/InputForm.dart';
 import 'package:app/Telas/Login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../Models/DadosLogin.dart';
 
+Login _login = Login();
+
 class Cadastro extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
+      body: _Cadastro(),
+    );
+  }
+}
+
+class _Cadastro extends StatefulWidget {
+  @override
+  _CadastroState createState() => _CadastroState();
+}
+
+class _CadastroState extends State<_Cadastro> {
+  final _formKey = GlobalKey<FormState>();
+
+  String? validarNome(value) {
+    if (value == null || value.isEmpty) {
+      return "Nome não pode ser vazio";
+    }
+    return null;
+  }
+
+  String? validarEmail(value) {
+    if (value == null || value.isEmpty) {
+      return "Email não pode ser vazio";
+    }
+    if (!value.contains('@') || !value.contains('.')) {
+      return "Formato de email inválido";
+    }
+    return null;
+  }
+
+  String? validarSenha(value) {
+    if (value == null || value.length < 5) {
+      return "Senha não pode ter menos de 5 caracteres";
+    }
+    return null;
+  }
+
+  String? validarRepetirSenha(value) {
+    if (value == null || value != _login.senha) {
+      return "Senhas diferentes";
+    }
+    return null;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    double distanciaY = MediaQuery.of(context).size.height * 0.03;
+    return Form(
+      key: _formKey,
+      child: Container(
         color: const Color(0xFF2C3639),
         transformAlignment: Alignment.center,
         alignment: Alignment.center,
         child: Column(
-          //mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(
-              height: MediaQuery.of(context).size.height * .05,
+              height: MediaQuery.of(context).size.height * .04,
             ),
+            Input("Nome", EdgeInsets.only(top: distanciaY),
+                (e) => _login.nome = e, validarNome),
             //Nome de Usuario
-            Container(
-              alignment: Alignment.centerLeft,
-              width: MediaQuery.of(context).size.width * 0.7,
-              child: const Text(
-                "Nome de Usuário",
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * .01,
-            ),
-            //Campo Nome de Usuario
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(100),
-                color: const Color(0xFFDCD7C9),
-              ),
-              width: MediaQuery.of(context).size.width * 0.7,
-              child: TextField(
-                onChanged: (e) => {},
-                decoration: InputDecoration(
-                  hintText: "Usuário",
-                  border: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.black),
-                    borderRadius: BorderRadius.circular(100),
-                  ),
-                ),
-              ),
-            ),
-            //Fim Nome de Usuario
-            SizedBox(
-              height: MediaQuery.of(context).size.height * .05,
-            ),
+            Input("Nome de Usuário", EdgeInsets.only(top: distanciaY),
+                (e) => _login.login = e, (p0) => null),
             //Email
-            Container(
-              alignment: Alignment.centerLeft,
-              width: MediaQuery.of(context).size.width * 0.7,
-              child: const Text(
-                "Email",
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * .01,
-            ),
-            //Campo Email
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(100),
-                color: const Color(0xFFDCD7C9),
-              ),
-              width: MediaQuery.of(context).size.width * 0.7,
-              child: TextField(
-                onChanged: (e) => {},
-                decoration: InputDecoration(
-                  hintText: "Email",
-                  border: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.black),
-                    borderRadius: BorderRadius.circular(100),
-                  ),
-                ),
-              ),
-            ),
-            //Fim Email
-            SizedBox(
-              height: MediaQuery.of(context).size.height * .05,
-            ),
-            //Label Senha
-            Container(
-              alignment: Alignment.centerLeft,
-              width: MediaQuery.of(context).size.width * 0.7,
-              child: const Text(
-                "Senha",
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * .01,
-            ),
-            //Campo Senha
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(100),
-                color: const Color(0xFFDCD7C9),
-              ),
-              width: MediaQuery.of(context).size.width * 0.7,
-              child: TextField(
-                onChanged: (e) => {},
-                decoration: InputDecoration(
-                  hintText: "Senha",
-                  border: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.black),
-                    borderRadius: BorderRadius.circular(100),
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * .05,
-            ),
-
-            //Label Confirmar Senha
-            Container(
-              alignment: Alignment.centerLeft,
-              width: MediaQuery.of(context).size.width * 0.7,
-              child: const Text(
-                "Confirmar Senha",
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * .01,
-            ),
-            //Campo Confirmar Senha
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(100),
-                color: const Color(0xFFDCD7C9),
-              ),
-              width: MediaQuery.of(context).size.width * 0.7,
-              child: TextField(
-                onChanged: (e) => {},
-                obscureText: true,
-                decoration: InputDecoration(
-                  hintText: "Confirmar Senha",
-                  border: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.black),
-                    borderRadius: BorderRadius.circular(100),
-                  ),
-                ),
-              ),
-            ),
-            //Fim Confirmar Senha
-            SizedBox(
-              height: MediaQuery.of(context).size.height * .05,
-            ),
+            Input("Email", EdgeInsets.only(top: distanciaY),
+                (e) => _login.email = e, validarEmail),
+            //Senha
+            Input("Senha", EdgeInsets.only(top: distanciaY),
+                (e) => _login.senha = e, validarSenha,
+                password: true),
+            //Confirmar Senha
+            Input("Confirmar Senha", EdgeInsets.only(top: distanciaY),
+                (e) => {_login.senhaRepetida}, validarRepetirSenha,
+                password: true),
             //Botao Casdastrar
             ElevatedButton(
-              onPressed: () => {},
+              onPressed: () => {
+                if (_formKey.currentState!.validate())
+                  {
+                    _login.Registrar(),
+                    Navigator.pop(context),
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => TelaLogin()),
+                    )
+                  }
+              },
               style: ElevatedButton.styleFrom(
                 minimumSize: Size(MediaQuery.of(context).size.width * 0.7,
                     MediaQuery.of(context).size.height * 0.1),

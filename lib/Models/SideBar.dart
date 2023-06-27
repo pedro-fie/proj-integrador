@@ -1,6 +1,7 @@
 import 'package:app/Storage/Storage.dart';
 import 'package:app/Telas/Iniciar.dart';
 import 'package:app/Telas/Perfil.dart';
+import 'package:app/Telas/Principal.dart';
 import 'package:flutter/material.dart';
 
 Widget _makeButtom(IconData icone, String texto, BuildContext context,
@@ -41,6 +42,19 @@ Widget getDrawer(BuildContext context) {
     child: ListView(
       padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
       children: [
+        _makeButtom(
+          Icons.house,
+          'Principal',
+          context,
+          (value) => {
+            Navigator.push(
+              value,
+              MaterialPageRoute(
+                builder: (v) => TelaPrincipal(),
+              ),
+            ),
+          },
+        ),
         _makeButtom(
           Icons.person,
           'Perfil',

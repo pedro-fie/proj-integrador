@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../Models/DadosLogin.dart';
+import '../Models/InputForm.dart';
 
 Login _login = Login();
 
@@ -32,6 +33,7 @@ class LoginForm extends StatefulWidget {
 
 class LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
+  bool erro = false;
 
   String? validarEmail(value) {
     if (value == null || value.isEmpty) {
@@ -75,6 +77,13 @@ class LoginFormState extends State<LoginForm> {
             Input("Senha", EdgeInsets.only(top: distanciaY),
                 (e) => {_login.senha = e}, validarSenha,
                 password: true),
+            if (erro)
+              const Text(
+                "Usuário ou senha incorretos.",
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
             //Esqueceu a senha
             Container(
               alignment: Alignment.centerRight,
@@ -173,58 +182,6 @@ class LoginFormState extends State<LoginForm> {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class Input extends StatelessWidget {
-  final EdgeInsetsGeometry edg;
-  final String? Function(String?) validator;
-  final void Function(String) fun;
-  final String label;
-  final bool password;
-  const Input(this.label, this.edg, this.fun, this.validator,
-      {this.password = false, super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: edg,
-      child: Column(
-        children: [
-          //Label Senha
-          Container(
-            alignment: Alignment.centerLeft,
-            width: MediaQuery.of(context).size.width * 0.7,
-            child: Text(
-              label,
-              style: const TextStyle(
-                color: Colors.white,
-              ),
-            ),
-          ),
-
-          //Campo Senha
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.7,
-            child: TextFormField(
-              obscureText: password,
-              decoration: InputDecoration(
-                hintText: label,
-                fillColor: const Color(0xFFDCD7C9),
-                filled: true,
-                border: OutlineInputBorder(
-                  borderSide: const BorderSide(color: Colors.white),
-                  borderRadius: BorderRadius.circular(100),
-                ),
-              ),
-              onChanged: fun,
-              // The validator receives the text that the user has entered.
-              validator: validator,
-            ),
-          ),
-        ],
       ),
     );
   }
