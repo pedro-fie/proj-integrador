@@ -11,12 +11,7 @@ class PerfilTela extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFF2C3639),
-      appBar: getTopBar('Perfil', [
-        IconButton(
-          onPressed: () => {},
-          icon: const Icon(Icons.search),
-        ),
-      ]),
+      appBar: getTopBar('Perfil', null),
       drawer: getDrawer(context),
       body: Container(
         alignment: Alignment.topCenter,

@@ -1,4 +1,5 @@
 import 'package:app/Storage/Storage.dart';
+import 'package:app/Telas/AdicionarReceita.dart';
 import 'package:app/Telas/Iniciar.dart';
 import 'package:app/Telas/Perfil.dart';
 import 'package:app/Telas/Principal.dart';
@@ -15,13 +16,7 @@ Widget _makeButtom(IconData icone, String texto, BuildContext context,
       ),
       ElevatedButton(
         onPressed: () => {
-          if (T != null)
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: T(context),
-              ),
-            ),
+          if (T != null) T(context),
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color(0xFF2C3639),
@@ -36,12 +31,13 @@ Widget _makeButtom(IconData icone, String texto, BuildContext context,
   );
 }
 
-Widget getDrawer(BuildContext context) {
+Drawer getDrawer(BuildContext context) {
   return Drawer(
     backgroundColor: const Color(0xFF2C3639),
     child: ListView(
-      padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+      padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
       children: [
+        //Principal
         _makeButtom(
           Icons.house,
           'Principal',
@@ -55,6 +51,7 @@ Widget getDrawer(BuildContext context) {
             ),
           },
         ),
+        //Perfil
         _makeButtom(
           Icons.person,
           'Perfil',
@@ -80,12 +77,21 @@ Widget getDrawer(BuildContext context) {
         //          //  ),
         //          //),
         //        },),
+        ///Add Receita
         _makeButtom(
           Icons.playlist_add_rounded,
           'Adicionar Receita',
           context,
-          null,
+          (value) => {
+            Navigator.push(
+              value,
+              MaterialPageRoute(
+                builder: (v) => TelaAdicionarReceita(),
+              ),
+            ),
+          },
         ),
+        //Sair
         _makeButtom(
           Icons.exit_to_app,
           'Sair',

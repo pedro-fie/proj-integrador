@@ -6,8 +6,16 @@ class Input extends StatelessWidget {
   final void Function(String) fun;
   final String label;
   final bool password;
+  final TextInputType type;
+  final double? height;
+  final int? length;
+
   const Input(this.label, this.edg, this.fun, this.validator,
-      {this.password = false, super.key});
+      {this.height,
+      this.length,
+      this.type = TextInputType.text,
+      this.password = false,
+      super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +38,11 @@ class Input extends StatelessWidget {
           //Campo
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.7,
+            height: height,
             child: TextFormField(
+              maxLines: type == TextInputType.multiline ? 100 : 1,
+              maxLength: length,
+              keyboardType: type,
               obscureText: password,
               decoration: InputDecoration(
                 hintText: label,
@@ -38,11 +50,11 @@ class Input extends StatelessWidget {
                 filled: true,
                 border: OutlineInputBorder(
                   borderSide: const BorderSide(color: Colors.white),
-                  borderRadius: BorderRadius.circular(100),
+                  borderRadius:
+                      BorderRadius.circular(height == null ? 100 : 20),
                 ),
               ),
               onChanged: fun,
-              // The validator receives the text that the user has entered.
               validator: validator,
             ),
           ),

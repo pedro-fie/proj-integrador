@@ -34,24 +34,24 @@ class _CadastroState extends State<_Cadastro> {
 
   String? validarEmail(value) {
     if (value == null || value.isEmpty) {
-      return "Email não pode ser vazio";
+      return "Email não pode ser vazio.";
     }
     if (!value.contains('@') || !value.contains('.')) {
-      return "Formato de email inválido";
+      return "Formato de email inválido.";
     }
     return null;
   }
 
   String? validarSenha(value) {
     if (value == null || value.length < 5) {
-      return "Senha não pode ter menos de 5 caracteres";
+      return "Senha não pode ter menos de 5 caracteres.";
     }
     return null;
   }
 
-  String? validarRepetirSenha(value) {
-    if (value == null || value != _login.senha) {
-      return "Senhas diferentes";
+  String? validarRepetirSenha(String? value) {
+    if (value == null || value != _login.senha || value.isEmpty) {
+      return "Senhas diferentes.";
     }
     return null;
   }
@@ -70,22 +70,47 @@ class _CadastroState extends State<_Cadastro> {
             SizedBox(
               height: MediaQuery.of(context).size.height * .04,
             ),
-            Input("Nome", EdgeInsets.only(top: distanciaY),
-                (e) => _login.nome = e, validarNome),
+            Input(
+              "Nome",
+              EdgeInsets.only(top: distanciaY),
+              (e) => _login.nome = e,
+              validarNome,
+            ),
             //Nome de Usuario
-            Input("Nome de Usuário", EdgeInsets.only(top: distanciaY),
-                (e) => _login.login = e, (p0) => null),
+            Input(
+              "Nome de Usuário",
+              EdgeInsets.only(top: distanciaY),
+              (e) => _login.login = e,
+              (p0) => _login.login.isNotEmpty
+                  ? null
+                  : "Nome de Usuário não pode ser vazio.",
+            ),
             //Email
-            Input("Email", EdgeInsets.only(top: distanciaY),
-                (e) => _login.email = e, validarEmail),
+            Input(
+              "Email",
+              EdgeInsets.only(top: distanciaY),
+              (e) => _login.email = e,
+              validarEmail,
+            ),
             //Senha
-            Input("Senha", EdgeInsets.only(top: distanciaY),
-                (e) => _login.senha = e, validarSenha,
-                password: true),
+            Input(
+              "Senha",
+              EdgeInsets.only(top: distanciaY),
+              (e) => _login.senha = e,
+              validarSenha,
+              password: true,
+            ),
             //Confirmar Senha
-            Input("Confirmar Senha", EdgeInsets.only(top: distanciaY),
-                (e) => {_login.senhaRepetida}, validarRepetirSenha,
-                password: true),
+            Input(
+              "Confirmar Senha",
+              EdgeInsets.only(
+                top: distanciaY,
+                bottom: distanciaY,
+              ),
+              (e) => {_login.senhaRepetida = e},
+              validarRepetirSenha,
+              password: true,
+            ),
             //Botao Casdastrar
             ElevatedButton(
               onPressed: () => {
@@ -138,7 +163,7 @@ class _CadastroState extends State<_Cadastro> {
                       padding: const EdgeInsets.all(0),
                     ),
                     child: const Text(
-                      "Faça o login",
+                      " Faça o login",
                       style: TextStyle(
                         color: Color(0xFFDCD7C9),
                       ),

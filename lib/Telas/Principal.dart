@@ -14,12 +14,7 @@ class TelaPrincipal extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFF2C3639),
-      appBar: getTopBar('Receitas', [
-        IconButton(
-          onPressed: () => {},
-          icon: const Icon(Icons.search),
-        ),
-      ]),
+      appBar: getTopBar('Receitas', null),
       drawer: getDrawer(context),
       body: _TelaP(),
     );
@@ -49,7 +44,7 @@ class _TelaPState extends State<_TelaP> {
                         e.usuarioId, e.imagem));
                   },
                 ),
-                setState(() {}),
+                setState(() => {}),
               }
           },
         );
@@ -67,8 +62,11 @@ class _TelaPState extends State<_TelaP> {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.topCenter,
+      padding: EdgeInsets.symmetric(
+        horizontal: MediaQuery.of(context).size.width * .05,
+      ),
       margin: const EdgeInsets.only(top: 5, bottom: 5),
-      child: Column(
+      child: ListView(
         children: getCards(context),
       ),
     );

@@ -72,18 +72,31 @@ class LoginFormState extends State<LoginForm> {
                 fit: BoxFit.cover,
               ),
             ),
-            Input("Email", EdgeInsets.only(top: distanciaY),
-                (e) => {_login.login = e}, validarEmail),
-            Input("Senha", EdgeInsets.only(top: distanciaY),
-                (e) => {_login.senha = e}, validarSenha,
-                password: true),
             if (erro)
-              const Text(
-                "Usuário ou senha incorretos.",
-                style: TextStyle(
-                  color: Colors.white,
+              Padding(
+                padding: EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height * .02,
+                ),
+                child: const Text(
+                  "Usuário ou senha incorretos.",
+                  style: TextStyle(
+                    color: Colors.red,
+                  ),
                 ),
               ),
+            Input(
+              "Email",
+              EdgeInsets.only(top: distanciaY),
+              (e) => {_login.login = e},
+              validarEmail,
+            ),
+            Input(
+              "Senha",
+              EdgeInsets.only(top: distanciaY),
+              (e) => {_login.senha = e},
+              validarSenha,
+              password: true,
+            ),
             //Esqueceu a senha
             Container(
               alignment: Alignment.centerRight,
@@ -125,9 +138,15 @@ class LoginFormState extends State<LoginForm> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => TelaPrincipal()),
+                                builder: (context) => TelaPrincipal(),
+                              ),
                             ),
-                          },
+                          }
+                        else
+                          {
+                            erro = true,
+                            setState(() => {}),
+                          }
                       },
                     ),
                   }
@@ -171,7 +190,7 @@ class LoginFormState extends State<LoginForm> {
                       padding: const EdgeInsets.all(0),
                     ),
                     child: const Text(
-                      "Cadastre-se",
+                      " Cadastre-se",
                       style: TextStyle(
                         color: Color(0xFFDCD7C9),
                       ),
